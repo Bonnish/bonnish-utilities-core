@@ -748,30 +748,19 @@ BonnishBase.MenuHTMLContent = [[
             <div class="content-header" id="content-header" style="display:none">
                 <div class="content-title" id="addon-title"></div>
                 <div class="content-meta" id="addon-meta"></div>
-                <div class="sub-tabs">
-                    <div class="sub-tab active" onclick="switchSubTab('jobs')">Jobs DarkRP</div>
-                    <div class="sub-tab" onclick="switchSubTab('general')">General</div>
-                </div>
             </div>
 
-            <div class="content-body" id="tab-jobs">
-                <div id="jobs-content">
-                    <div class="welcome">
-                        <div class="welcome-icon">⚙</div>
-                        <div class="welcome-title">Selecciona un addon</div>
-                        <div class="welcome-sub">Elige un addon instalado para configurarlo</div>
-                    </div>
+            <div class="content-body" id="settings-content">
+                <div class="welcome">
+                    <div class="welcome-icon">⚙</div>
+                    <div class="welcome-title">Selecciona un addon</div>
+                    <div class="welcome-sub">Elige un addon instalado para configurarlo</div>
                 </div>
-            </div>
-
-            <div class="content-body" id="tab-general" style="display:none">
-                <div class="section-label">General</div>
-                <div style="font-size:12px;color:#3a3a55;">Sin opciones adicionales.</div>
             </div>
 
             <div class="footer" id="footer" style="display:none">
-                <button class="btn btn-ghost" onclick="cancelChanges()">Cancelar</button>
-                <button class="btn btn-primary" onclick="saveChanges()">Guardar cambios</button>
+                <button id="btn-cancel" class="btn btn-ghost" onclick="cancelChanges()">Cancelar</button>
+                <button id="btn-save" class="btn btn-primary" onclick="saveChanges()">Guardar cambios</button>
             </div>
         </div>
     </div>
@@ -779,11 +768,11 @@ BonnishBase.MenuHTMLContent = [[
     <!-- MODAL -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <div class="modal-title">Agregar job</div>
-            <input type="text" id="job-input" placeholder="Nombre exacto del job en DarkRP..." />
+            <div class="modal-title" id="modal-title">Agregar elemento</div>
+            <input type="text" id="job-input" placeholder="Nombre exacto..." />
             <div class="modal-btns">
                 <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                <button class="btn btn-primary" onclick="confirmAddJob()">Agregar</button>
+                <button class="btn btn-primary" onclick="confirmAddListItem()">Agregar</button>
             </div>
         </div>
     </div>
@@ -800,9 +789,17 @@ BonnishBase.MenuHTMLContent = [[
         var GITHUB_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>';
 
         function receiveData(data) {
+            state.gamemode = data.gamemode || 'sandbox';
+            
             state.addons = data.addons || {};
+            if (Array.isArray(state.addons)) state.addons = {};
+            
             state.missing = data.missing || {};
+            if (Array.isArray(state.missing)) state.missing = {};
+            
             state.config = data.config || {};
+            if (Array.isArray(state.config)) state.config = {};
+
             renderCoreTab();
             renderSidebar();
         }
@@ -876,34 +873,81 @@ BonnishBase.MenuHTMLContent = [[
             document.getElementById('footer').style.display = 'flex';
             document.getElementById('addon-title').textContent = addon.name;
             document.getElementById('addon-meta').textContent = 'v' + (addon.version || '1.0') + ' — Bonnish Utilities';
-            switchSubTab('jobs');
-            renderJobs();
+            renderSettings();
         }
 
-        function renderJobs() {
+        var activeListId = null;
+
+        function renderSettings() {
             var id = state.currentAddon;
-            var addonConfig = state.config[id] || {};
-            var jobs = addonConfig.allowed_jobs || [];
-            var html = '<div class="section-label">Jobs con No Target permanente</div><div class="job-list">';
-            jobs.forEach(function (job) {
-                html += '<div class="job-row">' +
-                    '<div class="job-row-name">' + job + '</div>' +
-                    '<div class="toggle on" onclick="toggleJob(this,\'' + job + '\')">' +
-                    '<div class="toggle-thumb"></div>' +
-                    '</div></div>';
+            var addon = state.addons[id];
+            var html = '';
+
+            if (!addon || !addon.settings || addon.settings.length === 0) {
+                html = '<div class="welcome"><div class="welcome-icon">⚡</div><div class="welcome-title">Sin configuración</div><div class="welcome-sub">Este addon no requiere configuración adicional.</div></div>';
+                document.getElementById('settings-content').innerHTML = html;
+                return;
+            }
+
+            if (!state.config[id]) state.config[id] = {};
+
+            addon.settings.forEach(function (setting) {
+                if (setting.requireGamemode) {
+                    var reqs = Array.isArray(setting.requireGamemode) ? setting.requireGamemode : [setting.requireGamemode];
+                    if (reqs.indexOf(state.gamemode) === -1) {
+                        return; // Ocultar porque no estamos en el gamemode correcto
+                    }
+                }
+
+                var value = state.config[id][setting.id];
+                if (value === undefined) value = setting.default;
+                
+                if (setting.type === 'boolean') {
+                    var isOn = value === true;
+                    html += '<div class="job-row" style="margin-bottom:8px;">' +
+                        '<div class="job-row-name">' + setting.name + '</div>' +
+                        '<div class="toggle ' + (isOn ? 'on' : '') + '" onclick="toggleBoolean(\'' + setting.id + '\', this)">' +
+                        '<div class="toggle-thumb"></div>' +
+                        '</div></div>';
+                } else if (setting.type === 'string') {
+                    html += '<div class="section-label" style="margin-top:10px;">' + setting.name + '</div>' +
+                        '<input type="text" class="setting-input" value="' + (value || '') + '" onchange="updateString(\'' + setting.id + '\', this.value)" style="width:100%;padding:8px 12px;background:#09090e;border:1px solid #1e1e2e;border-radius:6px;color:#c9c9d4;font-size:12px;font-family:inherit;outline:none;margin-bottom:12px;">';
+                } else if (setting.type === 'string_list') {
+                    var list = value || [];
+                    html += '<div class="section-label" style="margin-top:10px;">' + setting.name + '</div><div class="job-list">';
+                    list.forEach(function (item) {
+                        html += '<div class="job-row">' +
+                            '<div class="job-row-name">' + item + '</div>' +
+                            '<div class="toggle on" onclick="removeListItem(\'' + setting.id + '\', \'' + item + '\')">' +
+                            '<div class="toggle-thumb"></div>' +
+                            '</div></div>';
+                    });
+                    html += '</div><button class="add-job-btn" onclick="openListModal(\'' + setting.id + '\', \'' + setting.name + '\')">+ Agregar elemento</button><div style="margin-bottom:12px;"></div>';
+                }
             });
-            html += '</div><button class="add-job-btn" onclick="openModal()">+ Agregar job</button>';
-            document.getElementById('jobs-content').innerHTML = html;
+
+            document.getElementById('settings-content').innerHTML = html;
         }
 
-        function toggleJob(el, job) {
+        function toggleBoolean(settingId, el) {
             el.classList.toggle('on');
             var id = state.currentAddon;
-            if (!state.config[id]) state.config[id] = { allowed_jobs: [] };
-            if (!el.classList.contains('on')) {
-                state.config[id].allowed_jobs = state.config[id].allowed_jobs.filter(function (j) { return j !== job; });
-            }
+            state.config[id][settingId] = el.classList.contains('on');
             state.dirty = true;
+        }
+
+        function updateString(settingId, val) {
+            var id = state.currentAddon;
+            state.config[id][settingId] = val;
+            state.dirty = true;
+        }
+
+        function removeListItem(settingId, item) {
+            var id = state.currentAddon;
+            var list = state.config[id][settingId] || [];
+            state.config[id][settingId] = list.filter(function (j) { return j !== item; });
+            state.dirty = true;
+            renderSettings();
         }
 
         function switchMainTab(tab, el) {
@@ -914,46 +958,52 @@ BonnishBase.MenuHTMLContent = [[
             addonsPage.style.display = tab === 'addons' ? 'flex' : 'none';
         }
 
-        function switchSubTab(tab) {
-            document.querySelectorAll('.sub-tab').forEach(function (t, i) {
-                t.classList.toggle('active', (i === 0 && tab === 'jobs') || (i === 1 && tab === 'general'));
-            });
-            document.getElementById('tab-jobs').style.display = tab === 'jobs' ? 'flex' : 'none';
-            document.getElementById('tab-general').style.display = tab === 'general' ? 'flex' : 'none';
-        }
-
-        function openModal() {
+        function openListModal(settingId, name) {
+            activeListId = settingId;
             document.getElementById('job-input').value = '';
+            document.getElementById('job-input').placeholder = 'Elemento para ' + name + '...';
             document.getElementById('modal').classList.add('visible');
             setTimeout(function () { document.getElementById('job-input').focus(); }, 50);
         }
 
         function closeModal() { document.getElementById('modal').classList.remove('visible'); }
 
-        function confirmAddJob() {
-            var jobName = document.getElementById('job-input').value.trim();
-            if (!jobName) return;
+        function confirmAddListItem() {
+            var val = document.getElementById('job-input').value.trim();
+            if (!val || !activeListId) return;
             var id = state.currentAddon;
-            if (!state.config[id]) state.config[id] = { allowed_jobs: [] };
-            if (state.config[id].allowed_jobs.indexOf(jobName) === -1) {
-                state.config[id].allowed_jobs.push(jobName);
+            if (!state.config[id][activeListId]) state.config[id][activeListId] = [];
+            if (state.config[id][activeListId].indexOf(val) === -1) {
+                state.config[id][activeListId].push(val);
             }
             state.dirty = true;
             closeModal();
-            renderJobs();
+            renderSettings();
         }
 
         function saveChanges() {
             bonnish.SaveConfig(JSON.stringify(state.config));
             state.dirty = false;
+            
+            var btn = document.getElementById('btn-save');
+            var originalText = btn.textContent;
+            btn.textContent = '¡Guardado!';
+            btn.style.background = '#28c840';
+            btn.style.borderColor = '#28c840';
+            
+            setTimeout(function() {
+                btn.textContent = originalText;
+                btn.style.background = '';
+                btn.style.borderColor = '';
+            }, 1500);
         }
 
         function cancelChanges() {
-            if (state.dirty) bonnish.SaveConfig(JSON.stringify(state.config));
+            bonnish.Close();
         }
 
         document.getElementById('job-input').addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') confirmAddJob();
+            if (e.key === 'Enter') confirmAddListItem();
             if (e.key === 'Escape') closeModal();
         });
     </script>

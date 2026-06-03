@@ -22,9 +22,8 @@ function BonnishBase.OpenMenu()
     html:Dock(FILL)
     html:SetHTML(BonnishBase.MenuHTMLContent)
     html:AddFunction("bonnish", "SaveConfig", function(jsonString)
-        local data = util.JSONToTable(jsonString)
         net.Start("bonnish_save_config")
-            net.WriteTable(data)
+            net.WriteString(jsonString)
         net.SendToServer()
     end)
 
@@ -49,3 +48,11 @@ net.Receive("bonnish_receive_config", function()
         BonnishBase.MenuHTML:Call("receiveData(" .. json .. ")")
     end
 end)
+
+list.Set("DesktopWindows", "BonnishUtilities", {
+    title = "Bonnish Utils",
+    icon = "icon16/application_double.png",
+    init = function(icon, window)
+        BonnishBase.OpenMenu()
+    end
+})

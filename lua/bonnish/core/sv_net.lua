@@ -7,8 +7,10 @@ net.Receive("bonnish_request_config", function(len, ply)
 
     net.Start("bonnish_receive_config")
         net.WriteTable({
-            addons = BonnishBase.Addons,
-            config = BonnishBase.Config
+            addons   = BonnishBase.Addons,
+            missing  = BonnishBase.GetMissingAddons(),
+            config   = BonnishBase.Config,
+            gamemode = engine.ActiveGamemode()
         })
     net.Send(ply)
 end)
@@ -16,15 +18,11 @@ end)
 net.Receive("bonnish_save_config", function(len, ply)
     if not ply:IsAdmin() then return end
 
-    local data = net.ReadTable()
-    BonnishBase.Config = data
-    BonnishBase.SaveConfig()
+    local jsonString = net.ReadString()
+    local data = util.JSONToTable(jsonString)
+    
+    if data then
+        BonnishBase.Config = data
+        BonnishBase.SaveConfig()
+    end
 end)
-
-net.Start("bonnish_receive_config")
-    net.WriteTable({
-        addons   = BonnishBase.Addons,
-        missing  = BonnishBase.GetMissingAddons(),
-        config   = BonnishBase.Config
-    })
-net.Send(ply)

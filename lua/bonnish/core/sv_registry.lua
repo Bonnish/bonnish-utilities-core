@@ -5,7 +5,13 @@ BonnishBase.KnownAddons = BonnishBase.KnownAddons or {
     ["no_target"] = {
         name     = "No Target System",
         version  = "1.0",
-        workshop = 'https://github.com/Bonnish/NoTarget-System'
+        workshop = 'https://github.com/Bonnish/NoTarget-System',
+        settings = {
+            { type = "string_list", id = "allowed_jobs", name = "Jobs (DarkRP)" },
+            { type = "boolean", id = "allow_self", name = "Permitir ponerse No Target a sí mismo", default = true },
+            { type = "boolean", id = "allow_others", name = "Permitir dar No Target a otros", default = false },
+            { type = "string", id = "command", name = "Comando de chat", default = "!notarget" }
+        }
     }
 }
 
@@ -34,6 +40,7 @@ function BonnishBase.GetMissingAddons()
                 name      = known.name,
                 version   = known.version,
                 workshop  = known.workshop,
+                settings  = known.settings,
                 status    = "missing"
             }
         end
