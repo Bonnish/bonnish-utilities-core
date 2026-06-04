@@ -747,6 +747,14 @@ BonnishBase.MenuHTMLContent = [[
             if (e.key === 'Enter') confirmAddListItem();
             if (e.key === 'Escape') closeModal();
         });
+
+        window.onload = function() {
+            setTimeout(function() {
+                if (window.bonnish && bonnish.Ready) {
+                    bonnish.Ready();
+                }
+            }, 50);
+        };
     </script>
 </body>
 </html>

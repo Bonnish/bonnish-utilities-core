@@ -1,6 +1,9 @@
 BonnishBase = BonnishBase or {}
 function BonnishBase.OpenMenu()
-    if not LocalPlayer():IsAdmin() then return end
+    if not LocalPlayer():IsAdmin() then
+        chat.AddText(Color(255, 0, 0), "[Bonnish] ", Color(255, 255, 255), "Necesitas ser Administrador para abrir este menú.")
+        return
+    end
 
     local frame = vgui.Create("DFrame")
     local sw, sh = ScrW(), ScrH()
@@ -34,11 +37,13 @@ function BonnishBase.OpenMenu()
     html:AddFunction("bonnish", "OpenURL", function(url)
         gui.OpenURL(url)
     end)
+    
+    html:AddFunction("bonnish", "Ready", function()
+        net.Start("bonnish_request_config")
+        net.SendToServer()
+    end)
 
     BonnishBase.MenuHTML = html
-
-    net.Start("bonnish_request_config")
-    net.SendToServer()
 end
 
 local function GetDarkRPJobs()
