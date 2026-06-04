@@ -41,8 +41,30 @@ function BonnishBase.OpenMenu()
     net.SendToServer()
 end
 
+local function GetDarkRPJobs()
+    local cats = {}
+    if DarkRP and DarkRP.getCategories then
+        local darkrp_cats = DarkRP.getCategories().jobs
+        for _, cat in ipairs(darkrp_cats) do
+            local catData = { name = cat.name, jobs = {} }
+            for _, job in ipairs(cat.members) do
+                table.insert(catData.jobs, job.name)
+            end
+            table.insert(cats, catData)
+        end
+    else
+        local catData = { name = "Trabajos", jobs = {} }
+        for k, v in pairs(RPExtraTeams or {}) do
+            table.insert(catData.jobs, v.name)
+        end
+        cats = {catData}
+    end
+    return cats
+end
+
 net.Receive("bonnish_receive_config", function()
     local data = net.ReadTable()
+    data.darkrp_jobs = GetDarkRPJobs()
     if IsValid(BonnishBase.MenuHTML) then
         local json = util.TableToJSON(data)
         BonnishBase.MenuHTML:Call("receiveData(" .. json .. ")")

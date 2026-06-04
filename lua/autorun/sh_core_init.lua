@@ -1,4 +1,5 @@
 AddCSLuaFile("bonnish/core/cl_menu.lua")
+AddCSLuaFile("bonnish/core/menu.lua")
 
 if SERVER then
     include("bonnish/core/sv_registry.lua")
