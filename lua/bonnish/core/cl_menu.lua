@@ -1,9 +1,6 @@
 BonnishBase = BonnishBase or {}
 function BonnishBase.OpenMenu()
-    if not LocalPlayer():IsAdmin() then
-        chat.AddText(Color(255, 0, 0), "[Bonnish] ", Color(255, 255, 255), "Necesitas ser Administrador para abrir este menú.")
-        return
-    end
+    if not BonnishBase.HasPermission(LocalPlayer()) then return end
 
     local frame = vgui.Create("DFrame")
     local sw, sh = ScrW(), ScrH()
@@ -51,26 +48,32 @@ local function GetDarkRPJobs()
     if DarkRP and DarkRP.getCategories then
         local darkrp_cats = DarkRP.getCategories().jobs
         for _, cat in ipairs(darkrp_cats) do
-            local catData = { name = cat.name, jobs = {} }
+            local catData = { name = cat.name, color = cat.color, jobs = {} }
             for _, job in ipairs(cat.members) do
-                table.insert(catData.jobs, job.name)
+                table.insert(catData.jobs, { name = job.name, color = job.color })
             end
             table.insert(cats, catData)
         end
     else
-        local catData = { name = "Trabajos", jobs = {} }
+        local catData = { name = "Trabajos", color = Color(0,150,255), jobs = {} }
         for k, v in pairs(RPExtraTeams or {}) do
-            table.insert(catData.jobs, v.name)
+            table.insert(catData.jobs, { name = v.name, color = v.color or Color(0,150,255) })
         end
         cats = {catData}
     end
     return cats
 end
 
+local function GetLangJSON()
+    local lang = BonnishBase.ServerConfig and BonnishBase.ServerConfig.Language or "en"
+    return util.TableToJSON(BonnishBase.Lang[lang] or BonnishBase.Lang["en"] or {})
+end
+
 net.Receive("bonnish_receive_config", function()
     local data = net.ReadTable()
     data.darkrp_jobs = GetDarkRPJobs()
     if IsValid(BonnishBase.MenuHTML) then
+        BonnishBase.MenuHTML:Call("setLang(" .. GetLangJSON() .. ")")
         local json = util.TableToJSON(data)
         BonnishBase.MenuHTML:Call("receiveData(" .. json .. ")")
     end

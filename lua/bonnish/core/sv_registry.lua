@@ -7,18 +7,18 @@ BonnishBase.KnownAddons = BonnishBase.KnownAddons or {
         version  = "1.0",
         workshop = 'https://github.com/Bonnish/NoTarget-System',
         settings = {
-            { type = "job_list", id = "allowed_jobs", name = "Jobs (DarkRP)" },
-            { type = "boolean", id = "allow_self", name = "Permitir ponerse No Target a sí mismo", default = true },
-            { type = "boolean", id = "allow_others", name = "Permitir dar No Target a otros", default = false },
-            { type = "string", id = "command", name = "Comando de chat", default = "!notarget" }
+            { type = "job_list", id = "allowed_jobs", name = "Allowed Jobs (DarkRP)" },
+            { type = "boolean", id = "allow_self", name = "Allow Self No Target", default = true },
+            { type = "boolean", id = "allow_others", name = "Allow Target Others", default = false },
+            { type = "string", id = "command", name = "Chat Command", default = "!notarget" }
         }
     },
     ["job_spawns"] = {
-        name     = "Job Spawn System",
-        version  = "1.0",
+        name     = "Custom Spawn Point Editor",
+        version  = "1.4",
         workshop = "https://github.com/Bonnish",
         settings = {
-            { type = "boolean", id = "enable_spawns", name = "Habilitar Sistema de Spawns", default = true }
+            { type = "boolean", id = "enable_spawns", name = "Enable Spawn System", default = true }
         }
     }
 }
@@ -41,21 +41,6 @@ function BonnishBase.RegisterAddon(data)
 
     data.status = status
     BonnishBase.Addons[data.id] = data
-
-    local col = Color(255, 255, 255)
-    local statusText = ""
-    if status == "installed" then
-        col = Color(16, 185, 129)
-        statusText = "✓ Instalado"
-    elseif status == "outdated" then
-        col = Color(245, 158, 11)
-        statusText = "⚠ Desactualizado"
-    else
-        col = Color(148, 163, 184)
-        statusText = "? Desconocido"
-    end
-    
-    PrintConsole("Módulo cargado: " .. data.name .. " [v" .. data.version .. "] -> " .. statusText, col)
 end
 
 function BonnishBase.GetMissingAddons()
@@ -75,17 +60,45 @@ function BonnishBase.GetMissingAddons()
 end
 
 hook.Add("Initialize", "BonnishBase_ConsoleSummary", function()
-    local missing = BonnishBase.GetMissingAddons()
-    local c = 0
-    for id, data in pairs(missing) do
-        MsgC(Color(147, 51, 234), "[Bonnish Core] ", Color(239, 68, 68), "✖ Módulo no instalado: " .. data.name, "\n")
-        c = c + 1
+    MsgC(Color(147, 51, 234), "\n========================================\n")
+    MsgC(Color(147, 51, 234), "          BONNISH UTILITIES CORE        \n")
+    MsgC(Color(147, 51, 234), "========================================\n")
+    
+    local c_installed = 0
+    local c_outdated = 0
+    local c_missing = 0
+
+    for id, known in pairs(BonnishBase.KnownAddons) do
+        local addon = BonnishBase.Addons[id]
+        if addon then
+            if addon.status == "installed" then
+                MsgC(Color(147, 51, 234), "[Bonnish] ", Color(16, 185, 129), "✓ " .. addon.name .. " [v" .. addon.version .. "] - Installed\n")
+                c_installed = c_installed + 1
+            elseif addon.status == "outdated" then
+                MsgC(Color(147, 51, 234), "[Bonnish] ", Color(245, 158, 11), "⚠ " .. addon.name .. " [v" .. addon.version .. " -> v" .. known.version .. "] - Update Available\n")
+                c_outdated = c_outdated + 1
+            else
+                MsgC(Color(147, 51, 234), "[Bonnish] ", Color(148, 163, 184), "? " .. addon.name .. " [v" .. addon.version .. "] - Unknown\n")
+            end
+        else
+            MsgC(Color(147, 51, 234), "[Bonnish] ", Color(239, 68, 68), "✖ " .. known.name .. " [v" .. known.version .. "] - Not Installed\n")
+            c_missing = c_missing + 1
+        end
+    end
+
+    for id, addon in pairs(BonnishBase.Addons) do
+        if not BonnishBase.KnownAddons[id] then
+            MsgC(Color(147, 51, 234), "[Bonnish] ", Color(148, 163, 184), "? " .. addon.name .. " [v" .. addon.version .. "] - Unregistered Addon\n")
+        end
     end
     
-    if c == 0 then
-        MsgC(Color(147, 51, 234), "[Bonnish Core] ", Color(16, 185, 129), "★ Todos los módulos requeridos están cargados correctamente.\n")
+    MsgC(Color(147, 51, 234), "----------------------------------------\n")
+    
+    local total = c_installed + c_outdated + c_missing
+    if c_missing == 0 and c_outdated == 0 then
+        MsgC(Color(147, 51, 234), "[Bonnish] ", Color(16, 185, 129), "★ All " .. total .. " modules loaded successfully.\n")
     else
-        MsgC(Color(147, 51, 234), "[Bonnish Core] ", Color(245, 158, 11), "⚠ Faltan " .. c .. " módulos por instalar. Revisa tu consola.\n")
+        MsgC(Color(147, 51, 234), "[Bonnish] ", Color(245, 158, 11), "⚠ Status: " .. c_installed .. " Installed | " .. c_outdated .. " Outdated | " .. c_missing .. " Missing\n")
     end
-    MsgC(Color(147, 51, 234), "========================================\n")
+    MsgC(Color(147, 51, 234), "========================================\n\n")
 end)

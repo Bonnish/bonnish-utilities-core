@@ -58,7 +58,7 @@ BonnishBase.MenuHTMLContent = [[
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
-        /* TITLEBAR */
+        
         .titlebar {
             height: 48px;
             background: rgba(5, 5, 5, 0.6);
@@ -95,7 +95,7 @@ BonnishBase.MenuHTMLContent = [[
             color: var(--status-missing);
         }
 
-        /* MAIN TABS */
+        
         .main-tabs {
             display: flex;
             background: rgba(18, 18, 18, 0.4);
@@ -119,10 +119,10 @@ BonnishBase.MenuHTMLContent = [[
             border-bottom-color: var(--accent);
         }
 
-        /* LAYOUT */
+        
         .layout { display: flex; flex: 1; overflow: hidden; }
 
-        /* SIDEBAR */
+        
         .sidebar {
             width: 240px;
             background: rgba(5, 5, 5, 0.4);
@@ -189,7 +189,7 @@ BonnishBase.MenuHTMLContent = [[
         }
         .addon-item.active .addon-item-name { color: var(--text-main); }
 
-        /* CONTENT */
+        
         .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         .content-header {
@@ -205,13 +205,13 @@ BonnishBase.MenuHTMLContent = [[
             flex: 1; overflow-y: auto; padding: 24px 32px;
         }
 
-        /* SCROLLBAR */
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
 
-        /* INPUTS & CONTROLS */
+        
         .section-label {
             font-size: 12px;
             color: var(--text-muted);
@@ -233,7 +233,7 @@ BonnishBase.MenuHTMLContent = [[
         .job-row:hover { border-color: var(--border-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .job-row-name { font-size: 14px; font-weight: 500; color: var(--text-main); }
 
-        /* TOGGLE */
+        
         .toggle {
             width: 44px; height: 24px;
             background: rgba(0,0,0,0.3);
@@ -258,7 +258,7 @@ BonnishBase.MenuHTMLContent = [[
             box-shadow: 0 0 8px rgba(255,255,255,0.4);
         }
 
-        /* BUTTONS */
+        
         .btn {
             padding: 10px 20px;
             font-size: 13px;
@@ -290,15 +290,15 @@ BonnishBase.MenuHTMLContent = [[
         .add-job-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(147, 51, 234, 0.05); }
 
         input.setting-input, select.setting-input {
-            width: 100%; padding: 12px 16px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
+            width: 100%; padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             color: var(--text-main);
             font-size: 14px; font-family: inherit;
             outline: none; transition: all 0.2s ease;
         }
-        input.setting-input:focus, select.setting-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2); }
+        input.setting-input:focus, select.setting-input:focus { border-color: var(--accent); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2); }
 
         .footer {
             padding: 16px 32px;
@@ -307,7 +307,7 @@ BonnishBase.MenuHTMLContent = [[
             background: rgba(5, 5, 5, 0.6);
         }
 
-        /* WELCOME */
+        
         .welcome {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             flex: 1; gap: 12px; color: var(--text-muted); height: 100%;
@@ -316,7 +316,7 @@ BonnishBase.MenuHTMLContent = [[
         .welcome-title { font-size: 20px; font-weight: 600; color: var(--text-main); }
         .welcome-sub { font-size: 14px; }
 
-        /* CORE VIEW */
+        
         .core-header {
             display: flex; align-items: center; gap: 20px;
             margin-bottom: 32px; padding-bottom: 24px;
@@ -377,7 +377,34 @@ BonnishBase.MenuHTMLContent = [[
         .legend { display: flex; gap: 20px; margin-bottom: 24px; padding: 16px; background: rgba(0,0,0,0.2); border-radius: var(--radius-md); }
         .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; color: var(--text-muted); }
 
-        /* MODAL */
+        .job-selector {
+            display: flex; flex-direction: column; gap: 4px;
+            max-height: 250px; overflow-y: auto;
+            background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            border-radius: var(--radius-md); padding: 8px;
+            margin-top: 12px;
+        }
+        .job-category {
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.1em; padding: 8px 12px; margin-top: 8px;
+            border-radius: 4px; display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer; transition: all 0.2s ease;
+            background: rgba(255,255,255,0.02);
+        }
+        .job-category:hover { filter: brightness(1.2); background: rgba(255,255,255,0.05); }
+        .job-category:first-child { margin-top: 0; }
+
+        .job-option {
+            padding: 8px 12px; margin-left: 12px; border-radius: 4px;
+            font-size: 13px; color: var(--text-main); display: flex;
+            align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s ease;
+            background: transparent; border: 1px solid transparent;
+        }
+        .job-option:hover { background: rgba(255,255,255,0.05); }
+        .job-color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink:0; }
+        .job-option.selected, .job-category.selected { background: rgba(147, 51, 234, 0.15); border: 1px solid var(--accent); }
+
+        
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px);
@@ -401,16 +428,16 @@ BonnishBase.MenuHTMLContent = [[
 
     <div class="app-container">
         <div class="titlebar">
-            <div class="titlebar-name">Bonnish Utilities</div>
+            <div class="titlebar-name" data-lang="core_title">Bonnish Utilities</div>
             <div class="close-btn" onclick="bonnish.Close()">✕</div>
         </div>
 
         <div class="main-tabs">
-            <div class="main-tab active" onclick="switchMainTab('core', this)">Dashboard</div>
-            <div class="main-tab" onclick="switchMainTab('addons', this)">Configuración</div>
+            <div class="main-tab active" data-lang="tab_dashboard" onclick="switchMainTab('core', this)">Dashboard</div>
+            <div class="main-tab" data-lang="tab_config" onclick="switchMainTab('addons', this)">Configuration</div>
         </div>
 
-        <!-- CORE TAB -->
+        
         <div id="page-core" class="content-body" style="display:block;">
             <div class="core-header">
                 <div class="core-logo">
@@ -419,8 +446,8 @@ BonnishBase.MenuHTMLContent = [[
                     </svg>
                 </div>
                 <div>
-                    <div class="core-title">Bonnish Utilities</div>
-                    <div class="core-subtitle">Panel de Control Central</div>
+                    <div class="core-title" data-lang="core_title">Bonnish Utilities</div>
+                    <div class="core-subtitle" data-lang="core_subtitle">Central Control Panel</div>
                 </div>
                 <a class="core-github" onclick="bonnish.OpenURL('https://github.com/Bonnish')">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
@@ -429,20 +456,20 @@ BonnishBase.MenuHTMLContent = [[
             </div>
 
             <div class="legend">
-                <div class="legend-item"><div class="addon-status installed"></div> Instalado</div>
-                <div class="legend-item"><div class="addon-status outdated"></div> Actualización Disponible</div>
-                <div class="legend-item"><div class="addon-status missing"></div> No Instalado</div>
+                <div class="legend-item"><div class="addon-status installed"></div> <span data-lang="status_installed">Installed</span></div>
+                <div class="legend-item"><div class="addon-status outdated"></div> <span data-lang="status_update">Update Available</span></div>
+                <div class="legend-item"><div class="addon-status missing"></div> <span data-lang="status_missing">No Installed</span></div>
             </div>
 
-            <div class="section-label">Tus Addons</div>
+            <div class="section-label" data-lang="your_addons">Your Addons</div>
             <div class="addons-grid" id="addons-grid"></div>
         </div>
 
-        <!-- CONFIG TAB -->
+        
         <div id="page-addons" style="display:none;" class="layout">
             <div class="sidebar">
                 <div class="sidebar-header">
-                    <div class="sidebar-label">Addons Instalados</div>
+                    <div class="sidebar-label" data-lang="installed_addons">Addons Installeds</div>
                     <div class="sidebar-version">v1.0</div>
                 </div>
                 <div id="addon-list"></div>
@@ -457,28 +484,28 @@ BonnishBase.MenuHTMLContent = [[
                 <div class="content-body" id="settings-content">
                     <div class="welcome">
                         <div class="welcome-icon">⚙️</div>
-                        <div class="welcome-title">Selecciona un addon</div>
-                        <div class="welcome-sub">Elige un addon instalado a la izquierda para configurarlo</div>
+                        <div class="welcome-title" data-lang="select_addon">Select an addon</div>
+                        <div class="welcome-sub" data-lang="select_addon_sub">Choose an installed addon on the left to configure it</div>
                     </div>
                 </div>
 
                 <div class="footer" id="footer" style="display:none">
-                    <button id="btn-cancel" class="btn btn-ghost" onclick="cancelChanges()">Descartar</button>
-                    <button id="btn-save" class="btn btn-primary" onclick="saveChanges()">Guardar Cambios</button>
+                    <button id="btn-cancel" class="btn btn-ghost" onclick="cancelChanges()" data-lang="btn_discard">Discard</button>
+                    <button id="btn-save" class="btn btn-primary" onclick="saveChanges()" data-lang="btn_save">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL -->
+    
     <div class="modal-overlay" id="modal">
         <div class="modal">
-            <div class="modal-title" id="modal-title">Añadir Elemento</div>
-            <input type="text" id="job-input" class="setting-input" placeholder="Escribe aquí..." />
-            <select id="job-select" class="setting-input" style="display:none;"></select>
+            <div class="modal-title" id="modal-title" data-lang="add_item">Add Item</div>
+            <input type="text" id="job-input" class="setting-input" placeholder="Type here..." />
+            <div id="job-selector" class="job-selector" style="display:none;"></div>
             <div class="modal-btns">
-                <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
-                <button class="btn btn-primary" onclick="confirmAddListItem()">Añadir</button>
+                <button class="btn btn-ghost" onclick="closeModal()" data-lang="btn_cancel">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmAddListItem()" data-lang="btn_add">Add</button>
             </div>
         </div>
     </div>
@@ -494,6 +521,17 @@ BonnishBase.MenuHTMLContent = [[
         };
 
         var GITHUB_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>';
+
+        var lang_data = {};
+        function setLang(data) {
+            lang_data = data;
+            document.querySelectorAll('[data-lang]').forEach(function(el) {
+                var txt = t(el.getAttribute('data-lang'));
+                if (txt) el.innerHTML = txt;
+            });
+            document.getElementById('job-input').placeholder = t('type_here') || "Type here...";
+        }
+        function t(key) { return lang_data[key] || key; }
 
         function receiveData(data) {
             state.gamemode = data.gamemode || 'sandbox';
@@ -523,7 +561,7 @@ BonnishBase.MenuHTMLContent = [[
             Object.keys(all).forEach(function (id) {
                 var addon = all[id];
                 var status = addon.status || 'unknown';
-                var badgeText = { installed: 'Instalado', outdated: 'Actualizar', missing: 'No Instalado', unknown: 'Desconocido' }[status] || 'Desconocido';
+                var badgeText = { installed: t('status_installed'), outdated: t('status_update'), missing: t('status_missing'), unknown: t('status_unknown') }[status] || t('status_unknown');
                 var badgeClass = 'badge-' + status;
                 var indicatorClass = 'addon-status ' + status;
                 var github = addon.workshop || '';
@@ -542,7 +580,7 @@ BonnishBase.MenuHTMLContent = [[
             });
 
             if (Object.keys(all).length === 0) {
-                grid.innerHTML = '<div style="font-size:14px;color:var(--text-muted);padding:20px 0;">Ningún addon registrado en la base de datos.</div>';
+                grid.innerHTML = '<div style="font-size:14px;color:var(--text-muted);padding:20px 0;">' + t('no_addons_db') + '</div>';
             }
         }
 
@@ -551,7 +589,7 @@ BonnishBase.MenuHTMLContent = [[
             list.innerHTML = '';
             var keys = Object.keys(state.addons);
             if (keys.length === 0) {
-                list.innerHTML = '<div style="padding:20px;font-size:13px;color:var(--text-muted);text-align:center;">Ningún addon instalado</div>';
+                list.innerHTML = '<div style="padding:20px;font-size:13px;color:var(--text-muted);text-align:center;">' + t('no_addons_installed') + '</div>';
                 return;
             }
             keys.forEach(function (id) {
@@ -588,7 +626,7 @@ BonnishBase.MenuHTMLContent = [[
             var html = '';
 
             if (!addon || !addon.settings || addon.settings.length === 0) {
-                html = '<div class="welcome"><div class="welcome-icon">⚡</div><div class="welcome-title">Sin Configuración</div><div class="welcome-sub">Este addon no requiere configuración adicional.</div></div>';
+                html = '<div class="welcome"><div class="welcome-icon">⚡</div><div class="welcome-title">' + t('no_config') + '</div><div class="welcome-sub">' + t('no_config_sub') + '</div></div>';
                 document.getElementById('settings-content').innerHTML = html;
                 return;
             }
@@ -608,25 +646,37 @@ BonnishBase.MenuHTMLContent = [[
                 
                 if (setting.type === 'boolean') {
                     var isOn = value === true;
+                    var descHtml = setting.desc ? '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;">' + t(setting.desc) + '</div>' : '';
                     html += '<div class="job-row">' +
-                        '<div class="job-row-name">' + setting.name + '</div>' +
+                        '<div><div class="job-row-name">' + t(setting.name) + '</div>' + descHtml + '</div>' +
                         '<div class="toggle ' + (isOn ? 'on' : '') + '" onclick="toggleBoolean(\'' + setting.id + '\', this)">' +
                         '<div class="toggle-thumb"></div>' +
                         '</div></div>';
                 } else if (setting.type === 'string') {
-                    html += '<div class="section-label" style="margin-top:20px;">' + setting.name + '</div>' +
+                    var descHtml = setting.desc ? '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;margin-bottom:8px;">' + t(setting.desc) + '</div>' : '';
+                    html += '<div class="section-label" style="margin-top:20px;margin-bottom:0px;">' + t(setting.name) + '</div>' + descHtml +
                         '<input type="text" class="setting-input" value="' + (value || '') + '" onchange="updateString(\'' + setting.id + '\', this.value)" style="margin-bottom:16px;">';
                 } else if (setting.type === 'string_list' || setting.type === 'job_list') {
+                    var descHtml = setting.desc ? '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;margin-bottom:8px;">' + t(setting.desc) + '</div>' : '';
                     var list = value || [];
-                    html += '<div class="section-label" style="margin-top:20px;">' + setting.name + '</div><div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">';
+                    html += '<div class="section-label" style="margin-top:20px;margin-bottom:0px;">' + t(setting.name) + '</div>' + descHtml + '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">';
                     list.forEach(function (item) {
+                        var colHtml = '';
+                        if (setting.type === 'job_list') {
+                            var col = getJobColor(item);
+                            if (item.startsWith('[CAT] ')) {
+                                colHtml = '<div style="width:4px;height:14px;background:' + col + ';border-radius:2px;margin-right:8px;"></div>';
+                            } else {
+                                colHtml = '<div class="job-color-dot" style="background:' + col + '; box-shadow: 0 0 8px ' + col + '; margin-right:8px;"></div>';
+                            }
+                        }
                         html += '<div class="job-row" style="margin-bottom:0;">' +
-                            '<div class="job-row-name">' + item + '</div>' +
-                            '<div class="toggle on" onclick="removeListItem(\'' + setting.id + '\', \'' + item + '\')">' +
+                            '<div style="display:flex;align-items:center;">' + colHtml + '<div class="job-row-name">' + item + '</div></div>' +
+                            '<div class="toggle on" onclick="removeListItem(\'' + setting.id + '\', \'' + item.replace(/'/g, "\\'") + '\')">' +
                             '<div class="toggle-thumb"></div>' +
                             '</div></div>';
                     });
-                    html += '</div><button class="add-job-btn" onclick="openListModal(\'' + setting.id + '\', \'' + setting.name + '\', \'' + setting.type + '\')">+ Añadir Elemento</button><div style="margin-bottom:20px;"></div>';
+                    html += '</div><button class="add-job-btn" onclick="openListModal(\'' + setting.id + '\', \'' + setting.name + '\', \'' + setting.type + '\')">+ ' + t('add_item') + '</button><div style="margin-bottom:20px;"></div>';
                 }
             });
 
@@ -663,35 +713,65 @@ BonnishBase.MenuHTMLContent = [[
         }
 
         var activeListType = 'string_list';
+        var selectedJobValue = '';
+
+        function colorToRGBA(col) {
+            if (!col) return 'rgba(255,255,255,1)';
+            return 'rgba(' + (col.r||255) + ',' + (col.g||255) + ',' + (col.b||255) + ',' + ((col.a!==undefined?col.a:255)/255) + ')';
+        }
+
+        function getJobColor(name) {
+            if (!state.darkrp_jobs) return 'rgba(255,255,255,1)';
+            for (var i = 0; i < state.darkrp_jobs.length; i++) {
+                var cat = state.darkrp_jobs[i];
+                if ('[CAT] ' + cat.name === name) return colorToRGBA(cat.color);
+                for (var j = 0; j < cat.jobs.length; j++) {
+                    if (cat.jobs[j].name === name) return colorToRGBA(cat.jobs[j].color);
+                }
+            }
+            return 'rgba(255,255,255,1)';
+        }
+
+        function renderJobSelector() {
+            var html = '';
+            state.darkrp_jobs.forEach(function(cat) {
+                var catBg = colorToRGBA(cat.color);
+                var isCatSel = selectedJobValue === '[CAT] ' + cat.name ? ' selected' : '';
+                html += '<div class="job-category job-sel-item' + isCatSel + '" style="border-left: 4px solid ' + catBg + '" onclick="selectJob(\'[CAT] ' + cat.name.replace(/'/g, "\\'") + '\', this)">' + cat.name + ' <span style="font-size:10px;opacity:0.5">' + t('category') + '</span></div>';
+                cat.jobs.forEach(function(job) {
+                    var jobCol = colorToRGBA(job.color);
+                    var isSel = selectedJobValue === job.name ? ' selected' : '';
+                    html += '<div class="job-option job-sel-item' + isSel + '" onclick="selectJob(\'' + job.name.replace(/'/g, "\\'") + '\', this)">' +
+                            '<div class="job-color-dot" style="background:' + jobCol + '; box-shadow: 0 0 8px ' + jobCol + '"></div>' +
+                            job.name +
+                            '</div>';
+                });
+            });
+            if(html === '') html = '<div style="padding:10px;text-align:center;color:var(--text-muted);font-size:13px;">' + t('no_jobs_found') + '</div>';
+            document.getElementById('job-selector').innerHTML = html;
+        }
+
+        function selectJob(val, el) {
+            selectedJobValue = val;
+            document.querySelectorAll('.job-sel-item').forEach(function(e) { e.classList.remove('selected'); });
+            if (el) el.classList.add('selected');
+        }
 
         function openListModal(settingId, name, listType) {
             activeListId = settingId;
             activeListType = listType || 'string_list';
-            document.getElementById('modal-title').textContent = 'Añadir a ' + name;
+            document.getElementById('modal-title').textContent = t('add_to') + name;
             
             if (activeListType === 'job_list') {
                 document.getElementById('job-input').style.display = 'none';
-                var sel = document.getElementById('job-select');
-                sel.style.display = 'block';
-                
-                var html = '';
-                state.darkrp_jobs.forEach(function(cat) {
-                    html += '<optgroup label="' + cat.name + '">';
-                    html += '<option value="[CAT] ' + cat.name + '">▶ Toda la Categoría: ' + cat.name + '</option>';
-                    if(cat.jobs.length > 0) {
-                        cat.jobs.forEach(function(job) {
-                            html += '<option value="' + job + '">&nbsp;&nbsp;&nbsp;' + job + '</option>';
-                        });
-                    }
-                    html += '</optgroup>';
-                });
-                if(html === '') html = '<option value="">No hay trabajos</option>';
-                sel.innerHTML = html;
+                document.getElementById('job-selector').style.display = 'flex';
+                selectedJobValue = '';
+                renderJobSelector();
             } else {
                 document.getElementById('job-input').style.display = 'block';
-                document.getElementById('job-select').style.display = 'none';
+                document.getElementById('job-selector').style.display = 'none';
                 document.getElementById('job-input').value = '';
-                document.getElementById('job-input').placeholder = 'Elemento para ' + name + '...';
+                document.getElementById('job-input').placeholder = 'Item for ' + name + '...';
             }
             
             document.getElementById('modal').classList.add('visible');
@@ -706,7 +786,7 @@ BonnishBase.MenuHTMLContent = [[
         function confirmAddListItem() {
             var val = "";
             if (activeListType === 'job_list') {
-                val = document.getElementById('job-select').value;
+                val = selectedJobValue;
             } else {
                 val = document.getElementById('job-input').value.trim();
             }
@@ -728,7 +808,7 @@ BonnishBase.MenuHTMLContent = [[
             
             var btn = document.getElementById('btn-save');
             var originalText = btn.textContent;
-            btn.textContent = '¡Guardado!';
+            btn.textContent = t('btn_saved');
             btn.style.background = 'var(--status-installed)';
             btn.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.4)';
             

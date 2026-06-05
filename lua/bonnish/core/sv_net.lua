@@ -3,7 +3,7 @@ util.AddNetworkString("bonnish_receive_config")
 util.AddNetworkString("bonnish_save_config")
 
 net.Receive("bonnish_request_config", function(len, ply)
-    if not ply:IsAdmin() then return end
+    if not BonnishBase.HasPermission(ply) then return end
 
     net.Start("bonnish_receive_config")
         net.WriteTable({
@@ -16,7 +16,7 @@ net.Receive("bonnish_request_config", function(len, ply)
 end)
 
 net.Receive("bonnish_save_config", function(len, ply)
-    if not ply:IsAdmin() then return end
+    if not BonnishBase.HasPermission(ply) then return end
 
     local jsonString = net.ReadString()
     local data = util.JSONToTable(jsonString)
