@@ -30,6 +30,7 @@ if SERVER then
     include("bonnish/core/sh_language.lua")
     include("bonnish/core/sv_registry.lua")
     include("bonnish/core/sv_config.lua")
+    include("bonnish/core/sv_database.lua")
     include("bonnish/core/sv_net.lua")
 end
 
