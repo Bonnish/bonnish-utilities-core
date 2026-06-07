@@ -6,7 +6,7 @@
 
 ## ✨ Key Features
 
-- 🖥️ **Centralized Dashboard:** A unified, highly aesthetic control panel (`!bonnish`) to manage all installed Bonnish addons.
+- 🖥️ **Centralized Dashboard:** A unified, highly aesthetic control panel accessible via the **Context Menu (Hold C)** to manage all installed Bonnish addons.
 - 🌍 **Multi-Language Support (i18n):** Native real-time localization (English/Spanish) that updates UI elements dynamically without requiring server restarts.
 - 💾 **Cross-Server Synchronization:** Native asynchronous MySQL database support (via MySQLOO) with a bulletproof fallback to local JSON if the database isn't available.
 - 🔐 **Universal Admin Compatibility:** Out-of-the-box support for popular permission systems like **ULX, SAM, ServerGuard, and FAdmin**.
