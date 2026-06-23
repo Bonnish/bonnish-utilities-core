@@ -4,7 +4,7 @@ BonnishBase.Addons = BonnishBase.Addons or {}
 BonnishBase.KnownAddons = BonnishBase.KnownAddons or {
     ["no_target"] = {
         name     = "No Target System",
-        version  = "1.0",
+        version  = "1.2",
         workshop = 'https://github.com/Bonnish/NoTarget-System',
         settings = {
             { type = "job_list", id = "allowed_jobs", name = "Allowed Jobs (DarkRP)" },
