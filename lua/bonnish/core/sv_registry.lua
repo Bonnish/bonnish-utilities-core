@@ -15,7 +15,7 @@ BonnishBase.KnownAddons = BonnishBase.KnownAddons or {
     },
     ["job_spawns"] = {
         name     = "Custom Spawn Point Editor",
-        version  = "1.4",
+        version  = "1.0",
         workshop = "https://github.com/Bonnish",
         settings = {
             { type = "boolean", id = "enable_spawns", name = "Enable Spawn System", default = true }

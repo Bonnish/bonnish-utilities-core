@@ -10,7 +10,7 @@ net.Receive("bonnish_request_config", function(len, ply)
             addons   = BonnishBase.Addons,
             missing  = BonnishBase.GetMissingAddons(),
             config   = BonnishBase.Config,
-            gamemode = engine.ActiveGamemode()
+            gamemode = (DarkRP ~= nil) and "darkrp" or engine.ActiveGamemode()
         })
     net.Send(ply)
 end)

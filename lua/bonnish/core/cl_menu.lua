@@ -79,10 +79,26 @@ net.Receive("bonnish_receive_config", function()
     end
 end)
 
-list.Set("DesktopWindows", "BonnishUtilities", {
-    title = "Bonnish Utils",
-    icon = "icon16/application_double.png",
-    init = function(icon, window)
-        BonnishBase.OpenMenu()
+hook.Add("OnPlayerChat", "BonnishBase_ChatCommand", function(ply, text)
+    if ply ~= LocalPlayer() then return end
+    local lowerText = string.lower(text)
+    if lowerText == "!bonnish" or lowerText == "/bonnish" then
+        if BonnishBase.HasPermission(ply) then
+            BonnishBase.OpenMenu()
+        else
+            ply:ChatPrint("[Bonnish] You do not have permission to use this command.")
+        end
+        return true -- Hide from chat
     end
-})
+end)
+
+-- Only add the context menu button if it's explicitly enabled or nil (default true)
+if BonnishBase.ServerConfig == nil or BonnishBase.ServerConfig.EnableContextMenuButton ~= false then
+    list.Set("DesktopWindows", "BonnishUtilities", {
+        title = "Bonnish Utils",
+        icon = "icon16/application_double.png",
+        init = function(icon, window)
+            BonnishBase.OpenMenu()
+        end
+    })
+end
